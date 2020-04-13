@@ -2,6 +2,7 @@ import os
 import cv2
 import glob
 import shutil
+from os import path
 
 # Edit
 main_repository_path = ""
@@ -25,19 +26,23 @@ JPEG = ".JPEG"
 
 names_of_directories = [name for name in os.listdir(main_repository_path + path_to_data + train_folder)]
 
-os.mkdir(main_repository_path + new_folder_name)
-os.mkdir(main_repository_path + new_folder_name + train_folder)
-os.mkdir(main_repository_path + new_folder_name + val_folder)
-os.mkdir(main_repository_path + new_folder_name + val_folder + images_folder)
-os.mkdir(main_repository_path + new_folder_name + test_folder)
-os.mkdir(main_repository_path + new_folder_name + test_folder + images_folder)
+if not path.exists(main_repository_path + new_folder_name):
+	os.mkdir(main_repository_path + new_folder_name)
+	os.mkdir(main_repository_path + new_folder_name + train_folder)
+	os.mkdir(main_repository_path + new_folder_name + val_folder)
+	os.mkdir(main_repository_path + new_folder_name + val_folder + images_folder)
+	os.mkdir(main_repository_path + new_folder_name + test_folder)
+	os.mkdir(main_repository_path + new_folder_name + test_folder + images_folder)
 
-shutil.copy(main_repository_path + path_to_data + "wnids.txt", main_repository_path + new_folder_name)
-shutil.copy(main_repository_path + path_to_data + "words.txt", main_repository_path + new_folder_name)
-shutil.copy(main_repository_path + path_to_data + val_folder + "val_annotations.txt", main_repository_path + new_folder_name + val_folder)
+	shutil.copy(main_repository_path + path_to_data + "wnids.txt", main_repository_path + new_folder_name)
+	shutil.copy(main_repository_path + path_to_data + "words.txt", main_repository_path + new_folder_name)
+	shutil.copy(main_repository_path + path_to_data + val_folder + "val_annotations.txt", main_repository_path + new_folder_name + val_folder)
 
 for directory_name in names_of_directories:
 	directory_name_folder_path = main_repository_path + new_folder_name + train_folder + directory_name
+	if path.exists(directory_name_folder_path):
+		continue
+
 	txt_file_name = directory_name + "_boxes.txt"
 	os.mkdir(directory_name_folder_path)
 	shutil.copy(main_repository_path + path_to_data + train_folder + directory_name + "/" + txt_file_name, main_repository_path + new_folder_name + train_folder + directory_name + "/" + txt_file_name)
