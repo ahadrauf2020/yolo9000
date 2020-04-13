@@ -38,12 +38,16 @@ shutil.copy(main_repository_path + path_to_data + val_folder + "val_annotations.
 
 for directory_name in names_of_directories:
 	directory_name_folder_path = main_repository_path + new_folder_name + train_folder + directory_name
+	txt_file_name = directory_name + "_boxes.txt"
 	os.mkdir(directory_name_folder_path)
+	shutil.copy(main_repository_path + path_to_data + train_folder + directory_name + "/" + txt_file_name, main_repository_path + new_folder_name + train_folder + directory_name + "/" + txt_file_name)
+	directory_name_folder_images_path = main_repository_path + new_folder_name + train_folder + directory_name + "/" + images_folder
+	os.mkdir(directory_name_folder_images_path)
 	for img_number in range(0, 500):
 		image_name = str(directory_name) + "_" + str(img_number) + JPEG
 		img = cv2.imread(main_repository_path + path_to_data + train_folder + str(directory_name) + "/" + images_folder + image_name) 
 		denoised_img = cv2.fastNlMeansDenoisingColored(img, None, 10, 7, 21) 
-		img_dir = directory_name_folder_path + "/"
+		img_dir = directory_name_folder_images_path + "/"
 		cv2.imwrite(img_dir + image_name, denoised_img)
 
 for img_number in range(0, 10000):
