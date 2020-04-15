@@ -1,3 +1,6 @@
+from collections import OrderedDict
+import shutil 
+
 # Move images so that dataloader can handle it
 class_maps = OrderedDict()
 with open('./data/tiny-imagenet-200/val/val_annotations.txt', "r") as f:
