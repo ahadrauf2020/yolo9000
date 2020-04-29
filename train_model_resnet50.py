@@ -18,6 +18,8 @@ import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import torchvision.models as models
 
+# python train_model.py "../data/tiny-imagenet-200/train/" -a "resnet50" --epochs 10 --pretrained
+
 model_names = sorted(name for name in models.__dict__
     if name.islower() and not name.startswith("__")
     and callable(models.__dict__[name]))
@@ -133,6 +135,21 @@ def main_worker(gpu, ngpus_per_node, args):
     if args.pretrained:
         print("=> using pre-trained model '{}'".format(args.arch))
         model = models.__dict__[args.arch](pretrained=True)
+        
+        # Freeze model parameters
+        for param in model.parameters():
+            param.requires_grad = False
+        
+        # Change the final layer of ResNet50 Model for Transfer Learning
+        fc_inputs = model.fc.in_features
+
+        model.fc = nn.Sequential(
+            nn.Linear(fc_inputs, 256),
+            nn.ReLU(),
+            nn.Dropout(0.4),
+            nn.Linear(256, 200), # Since 200 possible outputs
+            nn.LogSoftmax(dim=1) # For using NLLLoss()
+        )
     else:
         print("=> creating model '{}'".format(args.arch))
         model = models.__dict__[args.arch]()
