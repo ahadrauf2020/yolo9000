@@ -4,7 +4,7 @@ from PIL import Image
 import numpy as np
 import torch
 import torchvision.transforms as transforms
-from model import Net
+from resnet import resnet152
 
 
 def main():
@@ -14,7 +14,8 @@ def main():
     im_height, im_width = 64, 64
 
     ckpt = torch.load('latest.pt')
-    model = Net(len(CLASSES), im_height, im_width)
+    # model = Net(len(CLASSES), im_height, im_width)
+    model = resnet152(pretrained=False)
     model.load_state_dict(ckpt['net'])
     model.eval()
 
@@ -25,7 +26,9 @@ def main():
 
     # Loop through the CSV file and make a prediction for each line
     with open('eval_classified.csv', 'w') as eval_output_file:  # Open the evaluation CSV file for writing
-        for line in pathlib.Path(sys.argv[1]).open():  # Open the input CSV file for reading
+        eval_dir = pathlib.Path('eval.csv')
+        for line in eval_dir.open():
+        # for line in pathlib.Path(sys.argv[1]).open():  # Open the input CSV file for reading
             image_id, image_path, image_height, image_width, image_channels = line.strip().split(
                 ',')  # Extract CSV info
 
