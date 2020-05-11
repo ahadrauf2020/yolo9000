@@ -481,6 +481,19 @@ def main_worker(gpu, ngpus_per_node, args):
                 'optimizer' : optimizer.state_dict(),
             }, is_best)
 
+def load():
+    model = ResidualAttentionModel()
+    model =  torch.nn.DataParallel(model)
+        
+    optimizer = torch.optim.SGD(model.parameters(), 0.001,
+                                momentum=0.9,
+                                weight_decay=1e-4)
+    checkpoint = torch.load('cs182_residual_attention_nn/model_best.pth.tar')
+    model.load_state_dict(checkpoint['state_dict'])
+    optimizer.load_state_dict(checkpoint['optimizer'])
+    model.eval()
+
+
 
 def train(train_loader, model, criterion, optimizer, epoch, args):
     batch_time = AverageMeter('Time', ':6.3f')
