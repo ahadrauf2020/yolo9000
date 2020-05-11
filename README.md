@@ -1,4 +1,4 @@
-# CS 182 Vision Project - Generalizable Classifiers
+# CS182 Project: Robust and Generalizable Computer Vision Classification
 <b>Group Name:</b> Yolo9000
 
 <b>Authors:</b> Ahad Rauf, Chris Sun, Michael Lavva, Kei Watanabe
@@ -8,7 +8,7 @@
 ## Abstract:
 For the final project of CS182, we created a robust computer vision classifier that performs well in a dataset that contains perturbations. To achieve this, we used various data augmentation and other deep learning model techniques, such as model ensembling, denoising, and adversarial training. These  methods  helped  improve  the  robustness against both naturally perturbed and adversarial datasets. In addition, we implemented an explainable AI component to understand how the model makes its classification decisions.
 
-## Setup:
+## Setup / Dependencies:
 This project requires PyTorch, OpenCV, NumPy, MatPlotLib, PIL, etc.
 
 ## Dataset:
@@ -16,11 +16,11 @@ The dataset for this project is from https://tiny-imagenet.herokuapp.com/. To do
 
 ## Project Work:
 There are several branches that include the work in the project:
-* master
-* dev-ahad-adversarial
+* master: Contains denoising script.
+* dev-ahad-adversarial: Generates adversarial examples.
 * dev-ahad-finite-horizons
 * dev-ahad-master
-* dev-ahad-xai
-* dev-kei-resnet-vgg
-* resnet
-* test-submission
+* dev-ahad-xai: Code for Explainable AI.
+* dev-kei-resnet-vgg: Model & Snapshot Ensembling code
+* resnet: Code for ResNet model.
+* test-submission: Test submission code.
