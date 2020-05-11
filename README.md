@@ -1,2 +1,2 @@
-# yolo9000
-CS 182 Vision Project - Generalizable Classifiers
+# CS 182 Vision Project - Generalizable Classifiers
+Group Name: Yolo9000
