@@ -1,4 +1,6 @@
-# CS182 Project: Robust and Generalizable Computer Vision Classification
+# Robust and Generalizable Computer Vision Classification
+<b>Course:</b> CS182 (https://bcourses.berkeley.edu/courses/1487769/pages/cs-l-w-182-slash-282a-designing-visualizing-and-understanding-deep-neural-networks-spring-2020)
+
 <b>Group Name:</b> Yolo9000
 
 <b>Authors:</b> Ahad Rauf, Chris Sun, Michael Lavva, Kei Watanabe
