@@ -75,6 +75,7 @@ def main():
             ensemble_solver = Ensemble(models)
             predicted = ensemble_solver.evaluate_testdata(img)
             print("predicted class:", CLASSES[predicted])
+            print()
 
             # Write the prediction to the output file
             eval_output_file.write('{},{}\n'.format(image_id, CLASSES[predicted]))
