@@ -13,7 +13,7 @@ This project requires PyTorch, OpenCV, NumPy, MatPlotLib, PIL, etc.
 The dataset for this project is from https://tiny-imagenet.herokuapp.com/. To download it, go to the data folder in the master branch and run get_data.sh.
 
 ## Project Work:
-There are severalbranches that include the work in the project:
+There are several branches that include the work in the project:
 * master
 * dev-ahad-adversarial
 * dev-ahad-finite-horizons
