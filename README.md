@@ -1,6 +1,8 @@
 # CS 182 Vision Project - Generalizable Classifiers
 <b>Group Name:</b> Yolo9000
 
+<b>Authors:</b> Ahad Rauf, Chris Sun, Michael Lavva, Kei Watanabe
+
 <b>Link to the Paper:</b> [URL]
 
 ## Abstract:
