@@ -1,5 +1,6 @@
 from collections import OrderedDict
 import shutil 
+import os 
 
 # Move images so that dataloader can handle it
 class_maps = OrderedDict()
