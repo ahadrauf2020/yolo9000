@@ -92,7 +92,7 @@ class EnsembleTable():
         dense_model = torchvision.models.densenet169(pretrained=True)
         num_ftrs = dense_model.classifier.in_features
         dense_model.classifier = nn.Linear(num_ftrs, num_classes)
-        dense_model.load_state_dict(torch.load(self.paths['dense'], map_location=torch.device(device)))
+        dense_model.load_state_dict(torch.load(self.paths['dense169'], map_location=torch.device(device)))
         dense_model = dense_model.to(device)
 
     #     attention_model = ResidualAttentionModel()
