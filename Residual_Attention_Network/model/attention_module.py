@@ -71,10 +71,7 @@ class AttentionModule_pre(nn.Module):
         out_skip2_connection = self.skip2_connection_residual_block(out_softmax2)
         out_mpool3 = self.mpool3(out_softmax2)
         out_softmax3 = self.softmax3_blocks(out_mpool3)
-        #
         out_interp3 = self.interpolation3(out_softmax3)
-        # print(out_skip2_connection.data)
-        # print(out_interp3.data)
         out = out_interp3 + out_skip2_connection
         out_softmax4 = self.softmax4_blocks(out)
         out_interp2 = self.interpolation2(out_softmax4)

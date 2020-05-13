@@ -50,13 +50,21 @@ dataset_sizes = {x: len(image_datasets[x]) for x in phases}
 class_names = image_datasets['train'].classes
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-import resnet_modified
-model = resnet_modified.resnet152(pretrained=False, decay_factor=0.04278)
-num_ftrs = model.fc.in_features
-model.fc = nn.Linear(num_ftrs, num_classes)
+# import resnet_modified
+# model = resnet_modified.resnet152(pretrained=False, decay_factor=0.04278)
+# num_ftrs = model.fc.in_features
+# model.fc = nn.Linear(num_ftrs, num_classes)
+# model = model.to(device)
+# best_model_path = "./models/resnet152_best_model_state_dict.pth"
+# model.load_state_dict(torch.load(best_model_path))
+from model.residual_attention_network import ResidualAttentionModel_92_32input_update as ResidualAttentionModel
+model = ResidualAttentionModel()
+# model =  torch.nn.DataParallel(model)
+# num_ftrs = model.fc.in_features
+# model.fc = nn.Linear(num_ftrs, num_classes)
 model = model.to(device)
-best_model_path = "./models/resnet152_best_model_state_dict.pth"
-model.load_state_dict(torch.load(best_model_path))
+best_model_path = "./model_92_sgd.pkl"
+model.load_state_dict(torch.load(best_model_path, map_location=torch.device('cpu')))
 
 
 def plot_result(x_scale, tr, val, title, y_label, ax=plt):
@@ -142,7 +150,7 @@ def train_model(model, criterion, optimizer, scheduler, dataloaders, num_epochs=
             print('Time Elapsed {:.0f}m {:.0f}s --> Training Loss: {:.4f}, Acc: {:.4f}; Validation Loss: {:.4f}, Acc: {:.4f}'.format(
                 time_elapsed // 60, time_elapsed % 60, tr_loss[-1], tr_acc[-1], val_loss[-1], val_acc[-1]), flush=True)
         if save:
-            torch.save(model.state_dict(), './models/resnet152_best_model_epoch_' + str(epoch + start_count) + '.pth')
+            torch.save(model.state_dict(), './model/res_att_best_model_epoch_' + str(epoch + start_count) + '.pth')
             np.save('full_training_in_progress_part2.npy', np.array([tr_acc, val_acc, tr_loss, val_loss]))
 
     print('Best val Acc: {:4f}'.format(best_acc))
@@ -236,7 +244,7 @@ scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=8, gamma=0.1)
 model, tr_acc2, val_acc2, tr_loss2, val_loss2 = train_model(model, criterion, optimizer_ft, scheduler, dataloaders, 
                                                         num_epochs=15, verbose=True)
     
-torch.save(model.state_dict(), './models/resnet152_best_model_state_dict_v2_65.pth')
+torch.save(model.state_dict(), './model/residual_attention_model.pth')
 np.save('full_training_65.npy', np.array([tr_acc2, val_acc2, tr_loss2, val_loss2]))
 
 
@@ -251,5 +259,5 @@ np.save('full_training_65.npy', np.array([tr_acc2, val_acc2, tr_loss2, val_loss2
 # plt.show()
 
 
-np.save("train_data_resnet50_fh_v1.npy", np.array(train_data))
-np.save("val_data_resnet50_fh_v1.npy", np.array(val_data))
+np.save("train_data_res_att_fh_v1.npy", np.array(train_data))
+np.save("val_data_res_att_fh_v1.npy", np.array(val_data))

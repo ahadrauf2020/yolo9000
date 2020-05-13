@@ -1,222 +1,15 @@
-# from __future__ import print_function, division
-# import torch
-# import torch.nn as nn
-# import torch.optim as optim
-# from torch.autograd import Variable
-# from torch.utils.data import Dataset, DataLoader
-# import numpy as np
-# import torchvision
-# from torchvision import transforms, datasets, models
-# import os
-# import cv2
-# import time
-# import sys
-# from collections import OrderedDict
-# import shutil 
-# # from model.residual_attention_network_pre import ResidualAttentionModel
-# # based https://github.com/liudaizong/Residual-Attention-Network
-from model.residual_attention_network import ResidualAttentionModel_92_32input_update as ResidualAttentionModel
+from model.residual_attention_network import ResidualAttentionModel_92_32input_my_update as ResidualAttentionModel
+# from model.residual_attention_network import ResidualAttentionModel_92_32input_update as ResidualAttentionModel
 
-# model_file = 'model_92_sgd.pkl'
-
-
-# # for test
-# def test(model, val_loader, btrain=False, model_file='model_92_sgd.pkl'):
-#     # Test
-#     if not btrain:
-#         model.load_state_dict(torch.load(model_file))
-#     model.eval()
-
-#     correct = 0.000001
-#     total = 0.000001
-#     #
-#     class_correct = list(0. for i in range(200))
-#     class_total = list(0. for i in range(200))
-
-#     for images, labels in val_loader:
-#         # images = Variable(images.cuda())
-#         # labels = Variable(labels.cuda())
-
-#         # print("CCCCC", images.size())
-#         images = images.resize_((64, 3, 32, 32))
-        
-#         outputs = model(images)
-#         # print('outputs', outputs.size())
-#         _, predicted = torch.max(outputs.data, 1)
-#         total += labels.size(0)
-#         print('predicted', predicted)
-#         print('labels', labels)
-#         if labels.size(0) != predicted.size(0):
-#             continue
-#         correct += (predicted == labels.data).sum()
-        
-#         c = (predicted == labels.data).squeeze()
-#         for i in range(20):
-#             label = labels.data[i]
-#             class_correct[label] += c[i]
-#             class_total[label] += 1
-#         break
-#     print('Accuracy of the model on the test images: %d %%' % (100 * float(correct) / total))
-#     print('Accuracy of the model on the test images:', float(correct)/total)
-#     for i in range(200):
-#         print('Accuracy of %5s : %2d %%' % (
-#             classes[i], 100 * class_correct[i] / class_total[i]))
-#     return correct / total
-
-
-# # Image Preprocessing
-# # transform = transforms.Compose([
-# #     transforms.RandomHorizontalFlip(),
-# #     transforms.RandomCrop((32, 32), padding=4),   #left, top, right, bottom
-# #     # transforms.Scale(224),
-# #     transforms.ToTensor()
-# # ])
-# # test_transform = transforms.Compose([
-# #     transforms.ToTensor()
-# # ])
-
-# # when image is rgb, totensor do the division 255
-# # CIFAR-10 Dataset
-# # train_dataset = datasets.CIFAR10(root='./data/',
-# #                                train=True,
-# #                                transform=transform,
-# #                                download=True)
-
-# # test_dataset = datasets.CIFAR10(root='./data/',
-# #                               train=False,
-# #                               transform=test_transform)
-
-# transform = transforms.Compose([
-#     transforms.RandomHorizontalFlip(),
-#     transforms.RandomCrop((32, 32), padding=4),   #left, top, right, bottom
-#     # transforms.Scale(224),
-#     transforms.ToTensor()
-# ])
-
-# test_transform = transforms.Compose([
-#     transforms.ToTensor()
-# ])
-
-
-# datadir = sys.argv[1]
-# traindir = os.path.join(datadir, 'train')
-# # testdir = os.path.join(datadir, 'test')
-# valdir = os.path.join(datadir, 'val')
-
-# train_dataset = datasets.ImageFolder(traindir, transform=transform)
-
-# # test_dataset = datasets.ImageFolder(testdir, transform=test_transform)
-# val_dataset = datasets.ImageFolder(valdir, transform=test_transform)
-
-# # Data Loader (Input Pipeline)
-# train_loader = torch.utils.data.DataLoader(train_dataset, 
-#                                         batch_size=64, 
-#                                         shuffle=True,
-#                                         num_workers=8
-#                                         )
-
-
-# val_loader = torch.utils.data.DataLoader(dataset=val_dataset,
-#                                           batch_size=64,
-#                                           shuffle=False)
-
-
-# # classes = ('plane', 'car', 'bird', 'cat',
-# #            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
-# classes = ('n02795169', 'n02769748', 'n07920052', 'n02917067', 'n01629819', 'n02058221', 
-#     'n02793495', 'n04251144', 'n02814533', 'n02837789', 'n01770393', 'n01910747', 'n03649909', 
-#     'n02124075', 'n01774750', 'n06596364', 'n03838899', 'n02480495', 'n09256479', 'n03085013', 
-#     'n01443537', 'n04376876', 'n03404251', 'n03930313', 'n03089624', 'n04371430', 'n04254777', 
-#     'n02909870', 'n07614500', 'n02977058', 'n04259630', 'n07579787', 'n02950826', 'n02279972', 
-#     'n03424325', 'n03854065', 'n02403003', 'n01742172', 'n01882714', 'n03977966', 'n02669723', 
-#     'n02226429', 'n04366367', 'n02002724', 'n03891332', 'n01768244', 'n02509815', 'n03544143', 
-#     'n02321529', 'n02099601', 'n02948072', 'n04456115', 'n02236044', 'n03126707', 'n02074367', 
-#     'n03255030', 'n01950731', 'n02268443', 'n04501370', 'n03970156', 'n04099969', 'n04023962', 
-#     'n02085620', 'n02823428', 'n04265275', 'n02113799', 'n01784675', 'n03706229', 'n03100240', 
-#     'n04532106', 'n02788148', 'n07753592', 'n03983396', 'n04399382', 'n03902125', 'n02814860', 
-#     'n03014705', 'n09428293', 'n02481823', 'n04597913', 'n01944390', 'n03355925', 'n07871810', 
-#     'n03042490', 'n02190166', 'n04486054', 'n04008634', 'n02906734', 'n02699494', 'n04070727', 
-#     'n01855672', 'n09246464', 'n02364673', 'n07768694', 'n02883205', 'n04532670', 'n02815834', 
-#     'n02165456', 'n04540053', 'n02802426', 'n04356056', 'n03670208', 'n04562935', 'n01641577', 
-#     'n07615774', 'n07734744', 'n03584254', 'n01698640', 'n04507155', 'n02125311', 'n03179701', 
-#     'n07873807', 'n04179913', 'n04560804', 'n03393912', 'n02841315', 'n02843684', 'n09193705', 
-#     'n02437312', 'n04275548', 'n04118538', 'n02099712', 'n07747607', 'n03250847', 'n04133789', 
-#     'n02094433', 'n04074963', 'n02129165', 'n03637318', 'n02056570', 'n02410509', 'n03980874', 
-#     'n03400231', 'n03814639', 'n03026506', 'n01644900', 'n04398044', 'n02666196', 'n03444034', 
-#     'n04487081', 'n02486410', 'n02808440', 'n04149813', 'n12267677', 'n03662601', 'n02233338', 
-#     'n07711569', 'n02791270', 'n04465501', 'n03599486', 'n07720875', 'n03447447', 'n03804744', 
-#     'n04311004', 'n07695742', 'n07583066', 'n07715103', 'n04328186', 'n01917289', 'n02106662', 
-#     'n02927161', 'n02395406', 'n02231487', 'n02123394', 'n03976657', 'n02423022', 'n03770439', 
-#     'n04067472', 'n02206856', 'n04285008', 'n03617480', 'n03733131', 'n02415577', 'n04146614', 
-#     'n03388043', 'n01945685', 'n02892201', 'n03160309', 'n02281406', 'n02999410', 'n02504458', 
-#     'n04596742', 'n02132136', 'n03763968', 'n03796401', 'n07875152', 'n01983481', 'n07749582', 
-#     'n01774384', 'n03201208', 'n01984695', 'n02963159', 'n02123045', 'n09332890', 'n03992509', 
-#     'n02988304', 'n04417672', 'n02730930', 'n03937543', 'n03837869')
-# # model = ResidualAttentionModel().cuda()
-# model = ResidualAttentionModel()
-
-# lr = 0.1  # 0.1
-# criterion = nn.CrossEntropyLoss()
-# optimizer = optim.SGD(model.parameters(), lr=lr, momentum=0.9, nesterov=True, weight_decay=0.0001)
-# is_train = True
-# is_pretrain = False
-# acc_best = 0
-# total_epoch = 10
-# if is_train is True:
-#     if is_pretrain == True:
-#         model.load_state_dict((torch.load(model_file)))
-#     # Training
-#     for epoch in range(total_epoch):
-#         model.train()
-#         tims = time.time()
-
-#         for i, (images, labels) in enumerate(train_loader):
-#             # images = Variable(images.cuda())
-#             # images = Variable(images)
-
-#             # labels = Variable(labels.cuda())
-#             # labels = Variable(labels)
-
-#             # Forward + Backward + Optimize
-#             optimizer.zero_grad()
-#             outputs = model(images)
-
-#             loss = criterion(outputs, labels)
-#             loss.backward()
-#             optimizer.step()
-#             # print("hello")
-#             # if (i+1) % 100 == 0:
-#             print("Epoch [%d/%d], Iter [%d/%d] Loss: %.4f" %(epoch+1, total_epoch, i+1, len(train_loader), loss.item()))
-#             # print("Epoch [%d/%d], Iter [%d/%d] Loss: %.4f" %(epoch+1, total_epoch, i+1, len(train_loader), loss.data[0]))
-#             # print("Acc so far:", test(model, test_loader, btrain=True))
-#             break
-#         print('the epoch takes time:',time.time()-tims)
-#         print('evaluate validation set:')
-#         acc = test(model, val_loader, btrain=True)
-#         if acc > acc_best:
-#             acc_best = acc
-#             print('current best acc,', acc_best)
-#             torch.save(model.state_dict(), model_file)
-#         # Decaying Learning Rate
-#         if (epoch+1) / float(total_epoch) == 0.3 or (epoch+1) / float(total_epoch) == 0.6 or (epoch+1) / float(total_epoch) == 0.9:
-#             lr /= 10
-#             print('reset learning rate to:', lr)
-#             for param_group in optimizer.param_groups:
-#                 param_group['lr'] = lr
-#                 print(param_group['lr'])
-#             # optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-#             # optim.SGD(model.parameters(), lr=lr, momentum=0.9, nesterov=True, weight_decay=0.0001)
-#     # Save the Model
-#     torch.save(model.state_dict(), 'last_model_92_sgd.pkl')
-
-# else:
-#     test(model, val_loader, btrain=False)
 import argparse
 import os
 import random
 import shutil
 import time
 import warnings
+import numpy as np
+import matplotlib.pyplot as plt
+from PIL import Image
 
 import torch
 import torch.nn as nn
@@ -230,6 +23,7 @@ import torch.utils.data.distributed
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import torchvision.models as models
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 model_names = sorted(name for name in models.__dict__
     if name.islower() and not name.startswith("__")
@@ -244,7 +38,7 @@ parser.add_argument('-a', '--arch', metavar='ARCH', default='./model_92_sgd.pkl'
                         ' (default: resnet152)')
 parser.add_argument('-j', '--workers', default=1, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
-parser.add_argument('--epochs', default=1, type=int, metavar='N',
+parser.add_argument('--epochs', default=100, type=int, metavar='N',
                     help='number of total epochs to run')
 parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
@@ -287,6 +81,10 @@ parser.add_argument('--multiprocessing-distributed', action='store_true',
                          'multi node data parallel training')
 
 best_acc1 = 0
+train_loss = []
+train_acc = []
+val_loss = []
+val_acc = []
 
 
 def main():
@@ -365,6 +163,7 @@ def main_worker(gpu, ngpus_per_node, args):
             args.workers = int((args.workers + ngpus_per_node - 1) / ngpus_per_node)
             model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[args.gpu])
         else:
+            model.cuda()
             # DistributedDataParallel will divide and allocate batch_size to all
             # available GPUs if device_ids are not set
             model = torch.nn.parallel.DistributedDataParallel(model)
@@ -380,7 +179,7 @@ def main_worker(gpu, ngpus_per_node, args):
             model = torch.nn.DataParallel(model)
 
     # define loss function (criterion) and optimizer
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.CrossEntropyLoss().cuda(args.gpu)
 
     optimizer = torch.optim.SGD(model.parameters(), args.lr,
                                 momentum=args.momentum,
@@ -424,11 +223,11 @@ def main_worker(gpu, ngpus_per_node, args):
             # transforms.RandomHorizontalFlip(),
             # transforms.RandomCrop((32, 32), padding=4), 
             # transforms.ToTensor(),
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomCrop((32, 32), padding=4),   #left, top, right, bottom
+            # transforms.RandomHorizontalFlip(),
+            # transforms.RandomCrop((32, 32), padding=4),   #left, top, right, bottom
             # transforms.Scale(224),
-            transforms.ToTensor()
-     
+            transforms.ToTensor(),
+            normalize
         ]))
 
     if args.distributed:
@@ -444,7 +243,7 @@ def main_worker(gpu, ngpus_per_node, args):
         datasets.ImageFolder(valdir, transforms.Compose([
             # transforms.Resize(256),
             # transforms.CenterCrop(224),
-            transforms.RandomCrop((32, 32), padding=4),
+            # transforms.RandomCrop((32, 32), padding=4),
             transforms.ToTensor(),
             normalize,
         ])),
@@ -456,6 +255,8 @@ def main_worker(gpu, ngpus_per_node, args):
         return
 
     for epoch in range(args.start_epoch, args.epochs):
+
+    # for epoch in range(args.start_epoch, args.start_epoch+1):
         if args.distributed:
             train_sampler.set_epoch(epoch)
         adjust_learning_rate(optimizer, epoch, args)
@@ -480,18 +281,26 @@ def main_worker(gpu, ngpus_per_node, args):
                 'best_acc1': best_acc1,
                 'optimizer' : optimizer.state_dict(),
             }, is_best)
+            print(["train_acc", train_acc, "val_acc", val_acc, "train_loss", train_loss, "val_loss", val_loss])
+            np.save('full_training_in_progress.npy', np.array([train_acc, val_acc, train_loss, val_loss]))
+    fig, (ax1, ax2) = plt.subplots(1, 2)
+    plot_result(range(1), train_acc, val_acc, 'acc', 'Accuracy', ax=ax1)
+    plot_result(range(1), train_loss, val_loss, 'loss', 'Loss', ax=ax2)
+    fig.tight_layout()
+    # plt.show()
+    plt.savefig('result.png')
 
-def load():
-    model = ResidualAttentionModel()
-    model =  torch.nn.DataParallel(model)
-        
-    optimizer = torch.optim.SGD(model.parameters(), 0.001,
-                                momentum=0.9,
-                                weight_decay=1e-4)
-    checkpoint = torch.load('cs182_residual_attention_nn/model_best.pth.tar')
-    model.load_state_dict(checkpoint['state_dict'])
-    optimizer.load_state_dict(checkpoint['optimizer'])
-    model.eval()
+def plot_result(x_scale, tr, val, title, y_label, ax=plt):
+    ax.set_title(title)
+    if title == 'loss':
+        ax.plot(x_scale, tr, label='training loss')
+        ax.plot(x_scale, val, label='validation loss')
+    else:
+        ax.plot(x_scale, tr, label='training accuracy')
+        ax.plot(x_scale, val, label='validation accuracy')
+    ax.set_xlabel("Epochs")
+    ax.set_ylabel(y_label)
+    ax.legend()
 
 
 
@@ -517,7 +326,7 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
 
         if args.gpu is not None:
             images = images.cuda(args.gpu, non_blocking=True)
-        # target = target.cuda(args.gpu, non_blocking=True)
+        target = target.cuda(args.gpu, non_blocking=True)
 
         # compute output
         output = model(images)
@@ -540,7 +349,8 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
 
         if i % args.print_freq == 0:
             progress.display(i)
-
+        train_acc.append(acc1)
+        train_loss.append(loss)
 
 def validate(val_loader, model, criterion, args):
     batch_time = AverageMeter('Time', ':6.3f')
@@ -560,7 +370,7 @@ def validate(val_loader, model, criterion, args):
         for i, (images, target) in enumerate(val_loader):
             if args.gpu is not None:
                 images = images.cuda(args.gpu, non_blocking=True)
-            # target = target.cuda(args.gpu, non_blocking=True)
+            target = target.cuda(args.gpu, non_blocking=True)
 
             # compute output
             output = model(images)
@@ -578,16 +388,18 @@ def validate(val_loader, model, criterion, args):
 
             if i % args.print_freq == 0:
                 progress.display(i)
-
+            val_acc.append(acc1)
+            val_loss.append(loss)
 
         print(' * Acc@1 {top1.avg:.3f} Acc@5 {top5.avg:.3f}'
               .format(top1=top1, top5=top5))
-
+            
     return top1.avg
 
 
 def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
     torch.save(state, filename)
+
     if is_best:
         shutil.copyfile(filename, 'model_best.pth.tar')
 
@@ -635,7 +447,7 @@ class ProgressMeter(object):
 
 def adjust_learning_rate(optimizer, epoch, args):
     """Sets the learning rate to the initial LR decayed by 10 every 30 epochs"""
-    lr = args.lr * (0.1 ** (epoch // 30))
+    lr = args.lr * (0.1 ** (epoch // 10))
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
 
