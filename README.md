@@ -15,6 +15,9 @@ We created a robust computer vision classifier that performs well in a dataset t
 ## Setup / Dependencies:
 This project requires PyTorch, OpenCV, NumPy, MatPlotLib, PIL, etc.
 
+## Environment:
+Google Cloud’s Deep Learning VM instance and Nvidia Tesla K80 GPU / Nvidia T4.
+
 ## Dataset:
 The dataset for this project is from https://tiny-imagenet.herokuapp.com/. To download it, go to the data folder in the master branch and run `get_data.sh`.
 
