@@ -29,7 +29,7 @@ phases = ['train', 'val']
 
 
 class EnsembleTable():
-    def __init__(self, fgsm_dataloader=None, blurred_dataloader=None, fgsm_dataset_sizes=None, blurred_dataset_sizes=None):
+    def __init__(self, paths, fgsm_dataloader=None, blurred_dataloader=None, fgsm_dataset_sizes=None, blurred_dataset_sizes=None):
         image_datasets, normal_dataloaders, dataset_sizes, class_names = self.load_data()
         
         self.dataloaders = normal_dataloaders
@@ -40,6 +40,7 @@ class EnsembleTable():
         self.fgsm_dataset_sizes = dataset_sizes if fgsm_dataset_sizes is None else fgsm_dataset_sizes
         self.blurred_dataset_sizes = dataset_sizes if blurred_dataset_sizes is None else blurred_dataset_sizes
         self.models = self.load_models()
+        self.paths = paths
 
     def load_data(self, batch_size=500):
         data_dir = './data/tiny-imagenet-200'
@@ -76,25 +77,25 @@ class EnsembleTable():
         resnet_model = resnet_modified.resnet152(pretrained=False, decay_factor=0.04278)
         num_ftrs = resnet_model.fc.in_features
         resnet_model.fc = nn.Linear(num_ftrs, num_classes)
-        best_model_path = "./models/resnet152_best_model_state_dict.pth"
+        best_model_path = self.paths['resnet152']
         resnet_model.load_state_dict(torch.load(best_model_path, map_location=torch.device(device)))
         resnet_model = resnet_model.to(device)
 
         vgg_model = torch.hub.load('pytorch/vision:v0.6.0', 'vgg19_bn', pretrained=True)
         num_ftrs = vgg_model.classifier[6].in_features
         vgg_model.classifier[6] = nn.Linear(num_ftrs,num_classes)
-        vgg_model.load_state_dict(torch.load('./models/vgg19_bn_best_model.pth', map_location=torch.device(device)))
+        vgg_model.load_state_dict(torch.load(self.paths['vgg19_bn'], map_location=torch.device(device)))
         vgg_model = vgg_model.to(device)
 
         dense_model = torchvision.models.densenet169(pretrained=True)
         num_ftrs = dense_model.classifier.in_features
         dense_model.classifier = nn.Linear(num_ftrs, num_classes)
-        dense_model.load_state_dict(torch.load('./models/densenet169_best_model_state_dict_v2_65.pth', map_location=torch.device(device)))
+        dense_model.load_state_dict(torch.load(self.paths['dense'], map_location=torch.device(device)))
         dense_model = dense_model.to(device)
 
     #     attention_model = ResidualAttentionModel()
     #     attention_model =  torch.nn.DataParallel(attention_model)
-    #     checkpoint = torch.load('./models/chris_resnet_model_best.pth.tar', map_location=torch.device(device))
+    #     checkpoint = torch.load(self.paths['resatt'], map_location=torch.device(device))
     #     state_dict =checkpoint['state_dict']
     #     attention_model.load_state_dict(state_dict,False)
     #     attention_model = attention_model.to(device)    
