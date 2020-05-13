@@ -77,7 +77,7 @@ class Ensemble():
         return preds
 
                 
-    def evaluate_all(self, criterion, dataloaders, mode='average'):
+    def evaluate_all(self, criterion, dataloaders, dataset_sizes, mode='average'):
         running_loss = 0.0
         running_corrects = 0
         running_corrects1 = 0

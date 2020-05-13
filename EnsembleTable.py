@@ -25,23 +25,26 @@ from Ensemble import Ensemble
 
 num_classes = 200
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")    
-
+phases = ['train', 'val']
 
 
 class EnsembleTable():
-    def __init__(self, fgsm_dataloader=None, blurred_dataloader=None):
+    def __init__(self, fgsm_dataloader=None, blurred_dataloader=None, fgsm_dataset_sizes=None, blurred_dataset_sizes=None):
         image_datasets, normal_dataloaders, dataset_sizes, class_names = self.load_data()
         
         self.dataloaders = normal_dataloaders
         self.fgsm_dataloader = normal_dataloaders if fgsm_dataloader is None else fgsm_dataloader
         self.blurred_dataloader = normal_dataloaders if blurred_dataloader is None else blurred_dataloader
+           
+        self.dataset_sizes = dataset_sizes
+        self.fgsm_dataset_sizes = dataset_sizes if fgsm_dataset_sizes is None else fgsm_dataset_sizes
+        self.blurred_dataset_sizes = dataset_sizes if blurred_dataset_sizes is None else blurred_dataset_sizes
         self.models = self.load_models()
 
     def load_data(self, batch_size=500):
         data_dir = './data/tiny-imagenet-200'
         im_height = 64
-        im_width = 64
-        phases = ['train', 'val', 'test']    
+        im_width = 64    
 
         data_transforms = transforms.Compose([
             transforms.ToTensor(),
@@ -107,12 +110,12 @@ class EnsembleTable():
         for i in range(len(self.models)):
             criterion = nn.CrossEntropyLoss()
             ensemble_solver = Ensemble([self.models[i]])
-            top1_acc, top5_acc, val_loss = ensemble_solver.evaluate_all(criterion, self.dataloaders)
-            fgsm_top1_acc, fgsm_top5_acc, fgsm_val_loss = ensemble_solver.evaluate_all(criterion, self.fgsm_dataloader)
-            blurred_top1_acc, blurred_top5_acc, blurred_val_loss = ensemble_solver.evaluate_all(criterion, self.blurred_dataloader)
+            top1_acc, top5_acc, val_loss = ensemble_solver.evaluate_all(criterion, self.dataloaders, self.dataset_sizes)
+            fgsm_top1_acc, fgsm_top5_acc, fgsm_val_loss = ensemble_solver.evaluate_all(criterion, self.fgsm_dataloader, self.fgsm_dataset_sizes)
+            blurred_top1_acc, blurred_top5_acc, blurred_val_loss = ensemble_solver.evaluate_all(criterion, self.blurred_dataloader, self.blurred_dataset_sizes)
             print("{} = top1_acc: {}, top5_acc:{}, fgsm_top1_acc:{}, blurred_top1_acc:{}".format(model_names[i], top1_acc, top5_acc, fgsm_top1_acc, blurred_top1_acc))
             
-            
+        print()
         resnet_model, vgg_model, dense_model = self.models[0], self.models[1], self.models[2]
         
         combo = [
@@ -128,22 +131,23 @@ class EnsembleTable():
             ["Resnet152, VGG19_bn, DenseNet"]
         ]
             
-        # Ensemble by Averaging logits
+        print("Ensemble by Averaging logits")
         for i in range(len(combo)):
             criterion = nn.CrossEntropyLoss()
             ensemble_solver = Ensemble(combo[i])
-            top1_acc, top5_acc, val_loss = ensemble_solver.evaluate_all(criterion, self.dataloaders)
-            fgsm_top1_acc, fgsm_top5_acc, fgsm_val_loss = ensemble_solver.evaluate_all(criterion, self.fgsm_dataloader)
-            blurred_top1_acc, blurred_top5_acc, blurred_val_loss = ensemble_solver.evaluate_all(criterion, self.blurred_dataloader)
+            top1_acc, top5_acc, val_loss = ensemble_solver.evaluate_all(criterion, self.dataloaders, self.dataset_sizes)
+            fgsm_top1_acc, fgsm_top5_acc, fgsm_val_loss = ensemble_solver.evaluate_all(criterion, self.fgsm_dataloader, self.fgsm_dataset_sizes)
+            blurred_top1_acc, blurred_top5_acc, blurred_val_loss = ensemble_solver.evaluate_all(criterion, self.blurred_dataloader, self.blurred_dataset_sizes)
             print(combo_names[i])
             print("Validation top1_acc: {}, top5_acc:{}, fgsm_top1_acc:{}, blurred_top1_acc:{}".format(top1_acc, top5_acc, fgsm_top1_acc, blurred_top1_acc))
 
-         # Ensemble by Majority Vote
+        print()
+        print("Ensemble by Majority Vote")
         for i in range(len(combo)):
             criterion = nn.CrossEntropyLoss()
             ensemble_solver = Ensemble(combo[i])
-            top1_acc, top5_acc, val_loss = ensemble_solver.evaluate_all(criterion, self.dataloaders, "maj vote")
-            fgsm_top1_acc, fgsm_top5_acc, fgsm_val_loss = ensemble_solver.evaluate_all(criterion, self.fgsm_dataloader, "maj vote")
-            blurred_top1_acc, blurred_top5_acc, blurred_val_loss = ensemble_solver.evaluate_all(criterion, self.blurred_dataloader, "maj vote")
+            top1_acc, top5_acc, val_loss = ensemble_solver.evaluate_all(criterion, self.dataloaders, self.dataset_sizes, "maj vote")
+            fgsm_top1_acc, fgsm_top5_acc, fgsm_val_loss = ensemble_solver.evaluate_all(criterion, self.fgsm_dataloader, self.fgsm_dataset_sizes, "maj vote")
+            blurred_top1_acc, blurred_top5_acc, blurred_val_loss = ensemble_solver.evaluate_all(criterion, self.blurred_dataloader, self.blurred_dataset_sizes, "maj vote")
             print(combo_names[i])
             print("Validation top1_acc: {}, top5_acc:{}, fgsm_top1_acc:{}, blurred_top1_acc:{}".format(top1_acc, top5_acc, fgsm_top1_acc, blurred_top1_acc))
