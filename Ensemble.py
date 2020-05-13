@@ -94,7 +94,7 @@ class Ensemble():
 #                 inputs = torch.nn.functional.interpolate(inputs, (32, 32))
                 if mode == 'average':
                     # Take average of the output to make prediction
-                    outputs = torch.zeros(batch_size, num_classes)
+                    outputs = torch.zeros(batch_size, num_classes).to(device)
                     for m in self.models:
                         outputs += m(inputs)
                     outputs /= len(self.models)
