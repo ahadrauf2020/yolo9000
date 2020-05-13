@@ -39,8 +39,10 @@ class EnsembleTable():
         self.dataset_sizes = dataset_sizes
         self.fgsm_dataset_sizes = dataset_sizes if fgsm_dataset_sizes is None else fgsm_dataset_sizes
         self.blurred_dataset_sizes = dataset_sizes if blurred_dataset_sizes is None else blurred_dataset_sizes
-        self.models = self.load_models()
+        
         self.paths = paths
+        self.models = self.load_models()
+        
 
     def load_data(self, batch_size=500):
         data_dir = './data/tiny-imagenet-200'
