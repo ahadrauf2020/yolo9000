@@ -9,7 +9,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 
 import resnet_modified
-from Residual_Attention_Network.model.residual_attention_network import ResidualAttentionModel_92_32input_update as ResidualAttentionModel
+from Residual_Attention_Network.model.residual_attention_network import ResidualAttentionModel_92_32input_my_update as ResidualAttentionModel
 from Ensemble import Ensemble
 
 
@@ -28,22 +28,23 @@ def load_models():
     vgg_model = torch.hub.load('pytorch/vision:v0.6.0', 'vgg19_bn', pretrained=True)
     num_ftrs = vgg_model.classifier[6].in_features
     vgg_model.classifier[6] = nn.Linear(num_ftrs,num_classes)
-    vgg_model.load_state_dict(torch.load('./models/vgg19_bn_best_model_with_dataaug_state_dict.pt', map_location=torch.device(device)))
+    vgg_model.load_state_dict(torch.load('./models/vgg19_bn_best_model.pth', map_location=torch.device(device)))
     vgg_model = vgg_model.to(device)
 
-#     attention_model = ResidualAttentionModel()
-#     attention_model =  torch.nn.DataParallel(attention_model)
-#     checkpoint = torch.load('./models/chris_resnet_model_best.pth.tar', map_location=torch.device(device))
-#     attention_model.load_state_dict(checkpoint['state_dict'])
-#     attention_model = attention_model.to(device)
-    
     dense_model = torchvision.models.densenet169(pretrained=True)
     num_ftrs = dense_model.classifier.in_features
     dense_model.classifier = nn.Linear(num_ftrs, num_classes)
-    dense_model.load_state_dict(torch.load('./models/densenet169_best_model_epoch_0.pth', map_location=torch.device(device)))
+    dense_model.load_state_dict(torch.load('./models/densenet169_best_model_state_dict_v2_65.pth', map_location=torch.device(device)))
     dense_model = dense_model.to(device)
     
-    return [resnet_model, vgg_model, dense_model]
+    attention_model = ResidualAttentionModel()
+    attention_model =  torch.nn.DataParallel(attention_model)
+    checkpoint = torch.load('./models/chris_resnet_model_best.pth.tar', map_location=torch.device(device))
+    state_dict =checkpoint['state_dict']
+    attention_model.load_state_dict(state_dict,False)
+    attention_model = attention_model.to(device)    
+    
+    return [resnet_model, vgg_model, dense_model, attention_model]
 
 
 def main():
