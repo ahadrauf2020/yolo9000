@@ -38,7 +38,7 @@ class EnsembleTable():
         self.models = self.load_models()
 
     def load_data(self, batch_size=500):
-        data_dir = './modified_data/tiny-imagenet-200'
+        data_dir = './data/tiny-imagenet-200'
         im_height = 64
         im_width = 64
         phases = ['train', 'val', 'test']    
