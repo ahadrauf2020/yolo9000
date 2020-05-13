@@ -8,7 +8,7 @@
 <b>Link to the Paper:</b> [URL]
 
 ## Abstract:
-We created a robust computer vision classifier that performs well in a dataset that contains perturbations. To achieve this, we used various data augmentation and other deep learning model techniques, such as model ensembling, denoising, adversarial training, and attention networks. These methods helped improve the robustness against both naturally perturbed and adversarial datasets. In addition, we implemented an explainable AI component to understand how the model makes its classification decisions. Through these techniques, the goal was to improve the accuracy on an adversarial dataset.
+We created a robust computer vision classifier that performs well in a dataset that contains perturbations. To achieve this, we used various data augmentation and other deep learning model techniques, such as model ensembling, image denoising, adversarial training, and attention networks. These methods helped improve the robustness against both naturally perturbed and adversarial datasets. In addition, we created class action map visualizations for our models to help understand how the model makes its classification decisions. Through these techniques, we achieved a 53.21% validation accuracy on the Tiny-ImageNet classification challenge.
 
 <img src="images/class_action_maps.png" width="500">
 
