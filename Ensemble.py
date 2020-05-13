@@ -1,13 +1,8 @@
 import torch, torchvision
 from torchvision import datasets, models, transforms
 import torch.nn as nn
-import torch.optim as optim
 from torch.utils.data import DataLoader
-from torch.utils.data import Subset
-import time
 from torchsummary import summary
-from torch.optim import lr_scheduler
-import copy
 
 import sys
 import pathlib
@@ -16,53 +11,13 @@ import matplotlib.pyplot as plt
 import os
 
 from PIL import Image
-from collections import OrderedDict
-import shutil 
-# reference : https://github.com/automan000/CyclicLR_Scheduler_PyTorch
-from CyclicLR_Scheduler_PyTorch.cyclic_lr_scheduler import CyclicLR
 from Residual_Attention_Network.model.residual_attention_network import ResidualAttentionModel_92_32input_update as ResidualAttentionModel
 import resnet_modified
 
-
-# Load the Data
-data_dir = './data/tiny-imagenet-200'
 num_classes = 200
-
-
-# Create the training data generator
-batch_size = 500
-im_height = 64
-im_width = 64
 phases = ['train', 'val', 'test']
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")    
 batch_size = 500
-
-def load_data(batch_size=500):
-    data_transforms = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize((0, 0, 0), tuple(np.sqrt((255, 255, 255)))),
-    ])
-    
-
-    # Load Data from folders
-    image_datasets = {
-        'train': datasets.ImageFolder(os.path.join(data_dir, 'train'), transform=data_transforms),
-        'val': datasets.ImageFolder(os.path.join(data_dir, 'val'), transform=data_transforms),
-        'test': datasets.ImageFolder(os.path.join(data_dir, 'test'), transform=data_transforms)
-    }
-
-    # subset_indices = np.random.permutation(range(100))
-    # dataloaders = {x: DataLoader(image_datasets[x], batch_size=batch_size, shuffle=False, 
-    #                              sampler=SubsetRandomSampler(subset_indices)) for x in phases}
-
-    dataloaders = {'train': DataLoader(image_datasets['train'], batch_size=batch_size, shuffle=True),
-                  'val': DataLoader(image_datasets['val'], batch_size=batch_size, shuffle=True),
-                  'test': DataLoader(image_datasets['test'], batch_size=batch_size, shuffle=False)}
-    dataset_sizes = {x: len(image_datasets[x]) for x in phases}
-    class_names = image_datasets['train'].classes
-    return image_datasets, dataloaders, dataset_sizes, class_names
-
-# image_datasets, dataloaders, dataset_sizes, class_names = load_data()
 
 
 class Ensemble():
@@ -90,8 +45,9 @@ class Ensemble():
     def find_majority_vote(self, preds):
         maj_vote = torch.zeros(preds.shape[1])
         for i in range(preds.shape[1]):
-            _, counts = np.unique(preds[:, i], return_counts=True)
-            maj_vote[i] = preds[np.argmax(counts), i]
+            unique, counts = np.unique(preds[:, i], return_counts=True)
+            max_val = unique[np.argmax(counts)]
+            maj_vote[i] = torch.from_numpy(np.array([max_val])).float().to(device)
         maj_vote = maj_vote.to(device)
         return maj_vote
     
@@ -121,7 +77,7 @@ class Ensemble():
         return preds
 
                 
-    def evaluate_all(self, criterion, mode='average'):
+    def evaluate_all(self, criterion, dataloaders, mode='average'):
         running_loss = 0.0
         running_corrects = 0
         running_corrects1 = 0
