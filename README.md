@@ -8,7 +8,7 @@
 <b>Link to the Paper:</b> [URL]
 
 ## Abstract:
-We created a robust computer vision classifierthat performs well in a dataset that contains per-turbations. To achieve this, we used various dataaugmentation and other deep learning model tech-niques, such as model ensembling, denoising, ad-versarial training, and attention networks. Thesemethods helped improve the robustness againstboth naturally perturbed and adversarial datasets.In addition, we implemented an explainable AIcomponent to understand how the model makesits classification decisions.  Through these tech-niques, the goal was to improve the accuracy onan adversarial dataset.
+We created a robust computer vision classifier that performs well in a dataset that contains perturbations. To achieve this, we used various data augmentation and other deep learning model techniques, such as model ensembling, denoising, adversarial training, and attention networks. These methods helped improve the robustness against both naturally perturbed and adversarial datasets. In addition, we implemented an explainable AI component to understand how the model makes its classification decisions. Through these techniques, the goal was to improve the accuracy on an adversarial dataset.
 
 <img src="images/class_action_maps.png" width="500">
 
