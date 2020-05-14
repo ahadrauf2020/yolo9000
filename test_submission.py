@@ -37,14 +37,14 @@ def load_models():
     dense_model.load_state_dict(torch.load('./models/densenet169_best_model_state_dict_v2_65.pth', map_location=torch.device(device)))
     dense_model = dense_model.to(device)
     
-    attention_model = ResidualAttentionModel()
-    attention_model =  torch.nn.DataParallel(attention_model)
-    checkpoint = torch.load('./models/chris_resnet_model_best.pth.tar', map_location=torch.device(device))
-    state_dict =checkpoint['state_dict']
-    attention_model.load_state_dict(state_dict,False)
-    attention_model = attention_model.to(device)    
+#     attention_model = ResidualAttentionModel()
+#     attention_model =  torch.nn.DataParallel(attention_model)
+#     checkpoint = torch.load('./models/chris_resnet_model_best.pth.tar', map_location=torch.device(device))
+#     state_dict =checkpoint['state_dict']
+#     attention_model.load_state_dict(state_dict,False)
+#     attention_model = attention_model.to(device)    
     
-    return [resnet_model, vgg_model, dense_model, attention_model]
+    return [resnet_model, vgg_model, dense_model]
 
 
 def main():
@@ -60,10 +60,14 @@ def main():
 #         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         transforms.Normalize((0, 0, 0), tuple(np.sqrt((255, 255, 255))))
     ])
+    
+    evalcsv_path = sys.argv[1]
+    print("path to the eval.csv file:", evalcsv_path)
 
     # Loop through the CSV file and make a prediction for each line
     with open('eval_classified.csv', 'w') as eval_output_file:  # Open the evaluation CSV file for writing
-        eval_dir = pathlib.Path('eval.csv')
+#         eval_dir = pathlib.Path('eval.csv')
+        eval_dir = pathlib.Path(evalcsv_path)
         for line in eval_dir.open():
         # for line in pathlib.Path(sys.argv[1]).open():  # Open the input CSV file for reading
             image_id, image_path, image_height, image_width, image_channels = line.strip().split(
