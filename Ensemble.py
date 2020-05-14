@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import os
 
 from PIL import Image
-from Residual_Attention_Network.model.residual_attention_network import ResidualAttentionModel_92_32input_update as ResidualAttentionModel
+from Residual_Attention_Network.model.residual_attention_network import ResidualAttentionModel_92_32input_my_update as ResidualAttentionModel
 import resnet_modified
 
 num_classes = 200
@@ -90,8 +90,7 @@ class Ensemble():
             for inputs, labels in dataloaders[phase]:
                 inputs = inputs.to(device)
                 labels = labels.to(device)
-#                 if isinstance(m, ResidualAttentionModel):
-#                 inputs = torch.nn.functional.interpolate(inputs, (32, 32))
+                
                 if mode == 'average':
                     # Take average of the output to make prediction
                     outputs = torch.zeros(batch_size, num_classes).to(device)

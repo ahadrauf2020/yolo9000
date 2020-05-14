@@ -61,10 +61,6 @@ class EnsembleTable():
             'test': datasets.ImageFolder(os.path.join(data_dir, 'test'), transform=data_transforms)
         }
 
-        # subset_indices = np.random.permutation(range(100))
-        # dataloaders = {x: DataLoader(image_datasets[x], batch_size=batch_size, shuffle=False, 
-        #                              sampler=SubsetRandomSampler(subset_indices)) for x in phases}
-
         dataloaders = {'train': DataLoader(image_datasets['train'], batch_size=batch_size, shuffle=True),
                       'val': DataLoader(image_datasets['val'], batch_size=batch_size, shuffle=True),
                       'test': DataLoader(image_datasets['test'], batch_size=batch_size, shuffle=False)}
@@ -95,14 +91,12 @@ class EnsembleTable():
         dense_model.load_state_dict(torch.load(self.paths['dense169'], map_location=torch.device(device)))
         dense_model = dense_model.to(device)
 
-    #     attention_model = ResidualAttentionModel()
-    #     attention_model =  torch.nn.DataParallel(attention_model)
-    #     checkpoint = torch.load(self.paths['resatt'], map_location=torch.device(device))
-    #     state_dict =checkpoint['state_dict']
-    #     attention_model.load_state_dict(state_dict,False)
-    #     attention_model = attention_model.to(device)    
+        attention_model = ResidualAttentionModel()
+        attention_model.load_state_dict(torch.load(self.paths['resatt'], map_location=torch.device(device)))
+        attention_model = attention_model.to(device)
+        attention_model = attention_model.to(device)
 
-        return [resnet_model, vgg_model, dense_model]
+        return [resnet_model, vgg_model, dense_model, attention_model]
 
 
 
@@ -119,19 +113,21 @@ class EnsembleTable():
             print("{} = top1_acc: {}, top5_acc:{}, fgsm_top1_acc:{}, blurred_top1_acc:{}".format(model_names[i], top1_acc, top5_acc, fgsm_top1_acc, blurred_top1_acc))
             
         print()
-        resnet_model, vgg_model, dense_model = self.models[0], self.models[1], self.models[2]
+        resnet_model, vgg_model, dense_model, attention_model = self.models
         
         combo = [
-#             [resnet_model, dense_model, vgg_model, attention_model],
-#             [resnet_model, dense_model, attention_model],
-#             [resnet_model, vgg_model, attention_model],
-            [resnet_model, dense_model, vgg_model]
+            [resnet_model, dense_model, vgg_model, attention_model],
+            [resnet_model, dense_model, attention_model],
+            [resnet_model, vgg_model, attention_model],
+            [resnet_model, dense_model, vgg_model],
+            [dense_model, vgg_model, attention_model]
         ]
         combo_names = [
-#             ["Resnet152, VGG19_bn, DenseNet, ResAttNet"],
-#             ["Resnet152, DenseNet, ResAttNet"],
-#             ["Resnet152, VGG19_bn, ResAttNet"],
-            ["Resnet152, VGG19_bn, DenseNet"]
+            ["Resnet152, VGG19_bn, DenseNet, ResAttNet"],
+            ["Resnet152, DenseNet, ResAttNet"],
+            ["Resnet152, VGG19_bn, ResAttNet"],
+            ["Resnet152, VGG19_bn, DenseNet"],
+            ["DenseNet, VGG19_bn, ResAttNet"]
         ]
             
         print("Ensemble by Averaging logits")
@@ -149,8 +145,8 @@ class EnsembleTable():
         for i in range(len(combo)):
             criterion = nn.CrossEntropyLoss()
             ensemble_solver = Ensemble(combo[i])
-            top1_acc, top5_acc, val_loss = ensemble_solver.evaluate_all(criterion, self.dataloaders, self.dataset_sizes, "maj vote")
-            fgsm_top1_acc, fgsm_top5_acc, fgsm_val_loss = ensemble_solver.evaluate_all(criterion, self.fgsm_dataloader, self.fgsm_dataset_sizes, "maj vote")
-            blurred_top1_acc, blurred_top5_acc, blurred_val_loss = ensemble_solver.evaluate_all(criterion, self.blurred_dataloader, self.blurred_dataset_sizes, "maj vote")
+            top1_acc, top5_acc, val_loss = ensemble_solver.evaluate_all(criterion, self.dataloaders, self.dataset_sizes, mode="maj vote")
+            fgsm_top1_acc, fgsm_top5_acc, fgsm_val_loss = ensemble_solver.evaluate_all(criterion, self.fgsm_dataloader, self.fgsm_dataset_sizes, mode="maj vote")
+            blurred_top1_acc, blurred_top5_acc, blurred_val_loss = ensemble_solver.evaluate_all(criterion, self.blurred_dataloader, self.blurred_dataset_sizes, mode="maj vote")
             print(combo_names[i])
             print("Validation top1_acc: {}, top5_acc:{}, fgsm_top1_acc:{}, blurred_top1_acc:{}".format(top1_acc, top5_acc, fgsm_top1_acc, blurred_top1_acc))
