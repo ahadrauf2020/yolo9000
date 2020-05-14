@@ -1,5 +1,5 @@
 # Robust and Generalizable Computer Vision Classification
-<b>Course:</b> CS182 ([Link](https://bcourses.berkeley.edu/courses/1487769/pages/cs-l-w-182-slash-282a-designing-visualizing-and-understanding-deep-neural-networks-spring-2020))
+<b>Course:</b> CS182 ([Homepage of the Course](https://bcourses.berkeley.edu/courses/1487769/pages/cs-l-w-182-slash-282a-designing-visualizing-and-understanding-deep-neural-networks-spring-2020))
 
 <b>Group Name:</b> YOLO9000
 
