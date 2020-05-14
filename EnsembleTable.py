@@ -137,7 +137,7 @@ class EnsembleTable():
             top1_acc, top5_acc, val_loss = ensemble_solver.evaluate_all(criterion, self.dataloaders, self.dataset_sizes)
             fgsm_top1_acc, fgsm_top5_acc, fgsm_val_loss = ensemble_solver.evaluate_all(criterion, self.fgsm_dataloader, self.fgsm_dataset_sizes)
             blurred_top1_acc, blurred_top5_acc, blurred_val_loss = ensemble_solver.evaluate_all(criterion, self.blurred_dataloader, self.blurred_dataset_sizes)
-            print(combo_names[i])
+            print(combo_names[i][0])
             print("Validation top1_acc: {}, top5_acc:{}, fgsm_top1_acc:{}, blurred_top1_acc:{}".format(top1_acc, top5_acc, fgsm_top1_acc, blurred_top1_acc))
 
         print()
@@ -148,5 +148,6 @@ class EnsembleTable():
             top1_acc, top5_acc, val_loss = ensemble_solver.evaluate_all(criterion, self.dataloaders, self.dataset_sizes, mode="maj vote")
             fgsm_top1_acc, fgsm_top5_acc, fgsm_val_loss = ensemble_solver.evaluate_all(criterion, self.fgsm_dataloader, self.fgsm_dataset_sizes, mode="maj vote")
             blurred_top1_acc, blurred_top5_acc, blurred_val_loss = ensemble_solver.evaluate_all(criterion, self.blurred_dataloader, self.blurred_dataset_sizes, mode="maj vote")
-            print(combo_names[i])
+            print(combo_names[i][0])
             print("Validation top1_acc: {}, top5_acc:{}, fgsm_top1_acc:{}, blurred_top1_acc:{}".format(top1_acc, top5_acc, fgsm_top1_acc, blurred_top1_acc))
+            print()
