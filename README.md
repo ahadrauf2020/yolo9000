@@ -5,7 +5,7 @@
 
 <b>Authors:</b> Ahad Rauf, Chris Sun, Michael Lavva, Kei Watanabe
 
-<b>Link to the Paper:</b> [URL]
+<b>Link to the Paper:</b> https://github.com/ahadrauf2020/yolo9000/blob/master/report/cs182_report_robust_and_generalizable_computer_vision_classification.pdf
 
 ## Abstract:
 We created a robust computer vision classifier that performs well in a dataset that contains perturbations. To achieve this, we used various data augmentation and other deep learning model techniques, such as model ensembling, image denoising, adversarial training, and attention networks. These methods helped improve the robustness against both naturally perturbed and adversarial datasets. In addition, we created class action map visualizations for our models to help understand how the model makes its classification decisions. Through these techniques, we achieved a 71.1% Top 1 Accuracy and 90.0% Top 5 Accuracy on the Tiny-ImageNet classification challenge.
