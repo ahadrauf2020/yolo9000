@@ -22,6 +22,19 @@ For the final project of CS182, we created a robust computer vision classifier t
 ## Setup / Dependencies:
 This project requires PyTorch, OpenCV, NumPy, MatPlotLib, PIL, etc.
 
+## How to run test_submission.py  
+1. Create a conda environment and install the packages:  
+conda create -n yolo9000-testing python=3.6 pip  
+conda activate yolo9000-testing  
+pip install -r requirements.txt  
+
+2. Place data set such that relative path becomes ./data/tiny-imagenet-200/train/
+
+3. Create a directory called models at the top directory and download all models from the google drive folder and place them inside models directory : https://drive.google.com/drive/folders/1LVNFqUJAmhSGgYT4cVlzuImfZKi2ctyI?usp=sharing    
+
+5. Run `python test_submission_torch.py 'eval.csv'` where you need to replace 'eval.csv' with the path the eval.csv  
+
+
 ## Dataset:
 The dataset for this project is from https://tiny-imagenet.herokuapp.com/. To download it, go to the data folder in the master branch and run `get_data.sh`.
 
