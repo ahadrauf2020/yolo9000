@@ -5,7 +5,7 @@
 
 <b>Authors:</b> Ahad Rauf, Chris Sun, Michael Lavva, Kei Watanabe
 
-<b>Link to the Paper:</b> [URL]
+<b>Link to the Paper:</b> [Link](report/cs182_report_robust_and_generalizable_computer_vision_classification.pdf)
 
 ## Abstract:
 For the final project of CS182, we created a robust computer vision classifier that performs well in a dataset that contains perturbations. To achieve this, we used various data augmentation and other deep learning model techniques, such as model ensembling, denoising, and adversarial training. These  methods  helped  improve  the  robustness against both naturally perturbed and adversarial datasets. In addition, we implemented an explainable AI component to understand how the model makes its classification decisions.
@@ -18,7 +18,7 @@ This project requires PyTorch, OpenCV, NumPy, MatPlotLib, PIL, etc.
 ## Dataset:
 The dataset for this project is from https://tiny-imagenet.herokuapp.com/. To download it, go to the data folder in the master branch and run `get_data.sh`.
 
-## How to Run the Project
+## How to Run the Project:
 1. Create a conda environment and install the packages:
 conda create -n yolo9000-testing python=3.6 pip
 conda activate yolo9000-testing
