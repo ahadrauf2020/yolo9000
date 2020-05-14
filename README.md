@@ -21,6 +21,18 @@ The project's environment was a Google Cloud’s Deep Learning VM instance and N
 ## Dataset:
 The dataset for this project is from https://tiny-imagenet.herokuapp.com/. To download it, go to the data folder in the master branch and run `get_data.sh`.
 
+## How to Run the Project
+1. Create a conda environment and install the packages:
+conda create -n yolo9000-testing python=3.6 pip
+conda activate yolo9000-testing
+pip install -r requirements.txt
+
+2. Create a directory called data at the top directory and place data set such that relative path becomes ./data/tiny-imagenet-200/train/
+
+3. Create a directory called models at the top directory and download all models from the google drive folder and place them inside models directory : https://drive.google.com/drive/folders/1LVNFqUJAmhSGgYT4cVlzuImfZKi2ctyI?usp=sharing
+
+4. Run `python test_submission.py 'eval.csv'` where you need to replace 'eval.csv' with the path to the eval.csv
+
 ## Project Work:
 There are several branches that include the work in the project:
 * master: Contains denoising script.
