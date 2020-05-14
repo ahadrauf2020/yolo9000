@@ -19,17 +19,17 @@ Validation top1_acc: 0.6972, top5_acc:0.8907, fgsm_top1_acc:0.6972, blurred_top1
 
 Ensemble by Majority Vote
 Resnet152, VGG19_bn, DenseNet, ResAttNet
-Validation top1_acc: 0.30510000000000004, top5_acc:0.5826, fgsm_top1_acc:0.30510000000000004, blurred_top1_acc:0.30510000000000004
+Validation top1_acc: 0.6778000000000001, top5_acc:0.0, fgsm_top1_acc:0.6778000000000001, blurred_top1_acc:0.6778000000000001
 
 Resnet152, DenseNet, ResAttNet
-Validation top1_acc: 0.30510000000000004, top5_acc:0.5826, fgsm_top1_acc:0.30510000000000004, blurred_top1_acc:0.30510000000000004
+Validation top1_acc: 0.6364000000000001, top5_acc:0.0, fgsm_top1_acc:0.6364000000000001, blurred_top1_acc:0.6364000000000001
 
 Resnet152, VGG19_bn, ResAttNet
-Validation top1_acc: 0.30510000000000004, top5_acc:0.5826, fgsm_top1_acc:0.30510000000000004, blurred_top1_acc:0.30510000000000004
+Validation top1_acc: 0.6198, top5_acc:0.0, fgsm_top1_acc:0.6198, blurred_top1_acc:0.6198
 
 Resnet152, VGG19_bn, DenseNet
-Validation top1_acc: 0.6323000000000001, top5_acc:0.8429000000000001, fgsm_top1_acc:0.6323000000000001, blurred_top1_acc:0.6323000000000001
+Validation top1_acc: 0.6871, top5_acc:0.0, fgsm_top1_acc:0.6871, blurred_top1_acc:0.6871
 
 DenseNet, VGG19_bn, ResAttNet
-Validation top1_acc: 0.30510000000000004, top5_acc:0.5826, fgsm_top1_acc:0.30510000000000004, blurred_top1_acc:0.30510000000000004
+Validation top1_acc: 0.6344000000000001, top5_acc:0.0, fgsm_top1_acc:0.6344000000000001, blurred_top1_acc:0.6344000000000001
 
