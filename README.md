@@ -2,8 +2,6 @@
 # yolo9000
 CS 182 Vision Project - Generalizable Classifiers
 
-The link to download the model files:
-https://drive.google.com/drive/folders/1Mxigts_aeI6LOo2BTjP7IfbCBAv4FCyV?usp=sharing
 =======
 # Robust and Generalizable Computer Vision Classification
 <b>Course:</b> CS182 (https://bcourses.berkeley.edu/courses/1487769/pages/cs-l-w-182-slash-282a-designing-visualizing-and-understanding-deep-neural-networks-spring-2020)
@@ -14,6 +12,18 @@ https://drive.google.com/drive/folders/1Mxigts_aeI6LOo2BTjP7IfbCBAv4FCyV?usp=sha
 
 <b>Link to the Paper:</b> [URL]
 
+## How to run test_submission.py
+1. Create a conda environment and install the packages:
+conda create -n yolo9000-testing python=3.6 pip
+conda activate yolo9000-testing
+pip install -r requirements.txt
+
+2. Create a directory called data at the top directory and place data set such that relative path becomes ./data/tiny-imagenet-200/train/
+
+3. Create a directory called models at the top directory and download all models from the google drive folder and place them inside models directory : https://drive.google.com/drive/folders/1LVNFqUJAmhSGgYT4cVlzuImfZKi2ctyI?usp=sharing
+
+4. Run `python test_submission_torch.py 'eval.csv'` where you need to replace 'eval.csv' with the path to the eval.csv
+
 ## Abstract:
 For the final project of CS182, we created a robust computer vision classifier that performs well in a dataset that contains perturbations. To achieve this, we used various data augmentation and other deep learning model techniques, such as model ensembling, denoising, and adversarial training. These  methods  helped  improve  the  robustness against both naturally perturbed and adversarial datasets. In addition, we implemented an explainable AI component to understand how the model makes its classification decisions.
 
@@ -22,17 +32,6 @@ For the final project of CS182, we created a robust computer vision classifier t
 ## Setup / Dependencies:
 This project requires PyTorch, OpenCV, NumPy, MatPlotLib, PIL, etc.
 
-## How to run test_submission.py  
-1. Create a conda environment and install the packages:  
-conda create -n yolo9000-testing python=3.6 pip  
-conda activate yolo9000-testing  
-pip install -r requirements.txt  
-
-2. Place data set such that relative path becomes ./data/tiny-imagenet-200/train/
-
-3. Create a directory called models at the top directory and download all models from the google drive folder and place them inside models directory : https://drive.google.com/drive/folders/1LVNFqUJAmhSGgYT4cVlzuImfZKi2ctyI?usp=sharing    
-
-5. Run `python test_submission_torch.py 'eval.csv'` where you need to replace 'eval.csv' with the path the eval.csv  
 
 
 ## Dataset:
