@@ -13,7 +13,7 @@ We created a robust computer vision classifier that performs well in a dataset t
 <img src="images/class_action_maps.png" width="500">
 
 ## Setup / Dependencies:
-This project requires PyTorch, OpenCV, NumPy, MatPlotLib, PIL, etc.
+This project requires PyTorch, OpenCV2, NumPy, MatPlotLib, PIL, etc.
 
 ## Environment:
 The project's environment was a Google Cloud’s Deep Learning VM instance and Nvidia Tesla K80 GPU / Nvidia T4.
