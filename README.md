@@ -3,7 +3,7 @@
 
 <b>Group Name:</b> YOLO9000
 
-<b>Authors:</b> Ahad Rauf, Chris Sun, Michael Lavva, Kei Watanabe
+<b>Authors:</b> Ahad Rauf, Chris Sun, Michael Lavva, Keisuke Watanabe
 
 <b>Link to the Paper:</b> [PDF of the Paper](https://github.com/ahadrauf2020/yolo9000/blob/master/report/cs182_report_robust_and_generalizable_computer_vision_classification.pdf)
 
