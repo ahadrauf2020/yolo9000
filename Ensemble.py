@@ -111,12 +111,17 @@ class Ensemble():
                     preds = self.find_majority_vote(predictions)
                 # statistics
                 running_loss += loss.item() * inputs.size(0)
-                running_corrects += torch.sum(preds == labels.data)
-                corr1, corr5 = self.get_num_corrects(outputs, labels, topk=(1, 5))
-                running_corrects1 += corr1[0]
-                running_corrects5 += corr5[0]
+                if mode == 'average':
+                    corr1, corr5 = self.get_num_corrects(outputs, labels, topk=(1, 5))
+                    running_corrects1 += corr1[0]
+                    running_corrects5 += corr5[0]
+                else:
+                    running_corrects1 += torch.sum(preds == labels.data)
                 
             self.loss = running_loss / dataset_sizes[phase]
-            self.top1_acc = running_corrects1.double() / dataset_sizes[phase]
-            self.top5_acc = running_corrects5.double() / dataset_sizes[phase]
+            if mode == 'average':
+                self.top1_acc = running_corrects1.double() / dataset_sizes[phase]
+                self.top5_acc = running_corrects5.double() / dataset_sizes[phase]
+            else:
+                self.top1_acc = running_corrects1.double() / dataset_sizes[phase]
         return self.top1_acc, self.top5_acc, self.loss
