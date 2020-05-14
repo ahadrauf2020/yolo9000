@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-# yolo9000
-CS 182 Vision Project - Generalizable Classifiers
-
-=======
 # Robust and Generalizable Computer Vision Classification
 <b>Course:</b> CS182 (https://bcourses.berkeley.edu/courses/1487769/pages/cs-l-w-182-slash-282a-designing-visualizing-and-understanding-deep-neural-networks-spring-2020)
 
@@ -45,4 +40,3 @@ There are several branches that include the work in the project:
 * dev-kei-resnet-vgg: Model & Snapshot Ensembling code
 * resnet: Code for ResNet model.
 * test-submission: Test submission code.
->>>>>>> 781060c84d2cd70d2df9b8e2244cc8cf72f00f98
