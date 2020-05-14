@@ -23,9 +23,9 @@ The dataset for this project is from https://tiny-imagenet.herokuapp.com/. To do
 
 ## How to Run the Project
 1. Create a conda environment and install the packages:
-conda create -n yolo9000-testing python=3.6 pip
+`conda create -n yolo9000-testing python=3.6 pip
 conda activate yolo9000-testing
-pip install -r requirements.txt
+pip install -r requirements.txt`
 
 2. Create a directory called data at the top directory and place data set such that relative path becomes ./data/tiny-imagenet-200/train/
 
