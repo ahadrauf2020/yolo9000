@@ -1,11 +1,11 @@
 # Robust and Generalizable Computer Vision Classification
-<b>Course:</b> CS182 (https://bcourses.berkeley.edu/courses/1487769/pages/cs-l-w-182-slash-282a-designing-visualizing-and-understanding-deep-neural-networks-spring-2020)
+<b>Course:</b> CS182 ([Link](https://bcourses.berkeley.edu/courses/1487769/pages/cs-l-w-182-slash-282a-designing-visualizing-and-understanding-deep-neural-networks-spring-2020))
 
 <b>Group Name:</b> YOLO9000
 
 <b>Authors:</b> Ahad Rauf, Chris Sun, Michael Lavva, Kei Watanabe
 
-<b>Link to the Paper:</b> https://github.com/ahadrauf2020/yolo9000/blob/master/report/cs182_report_robust_and_generalizable_computer_vision_classification.pdf
+<b>Link to the Paper:</b> [PDF of Paper](https://github.com/ahadrauf2020/yolo9000/blob/master/report/cs182_report_robust_and_generalizable_computer_vision_classification.pdf)
 
 ## Abstract:
 We created a robust computer vision classifier that performs well in a dataset that contains perturbations. To achieve this, we used various data augmentation and other deep learning model techniques, such as model ensembling, image denoising, adversarial training, and attention networks. These methods helped improve the robustness against both naturally perturbed and adversarial datasets. In addition, we created class action map visualizations for our models to help understand how the model makes its classification decisions. Through these techniques, we achieved a 71.1% Top 1 Accuracy and 90.0% Top 5 Accuracy on the Tiny-ImageNet classification challenge.
