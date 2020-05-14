@@ -1,0 +1,37 @@
+number of classes 200
+blurred dataset size {'val': 9999}
+Loaded normal data of size {'train': 100000, 'val': 10000}
+Validation Accuracy Table
+Resnet152 = top1_acc: 0.635, top5_acc:0.8523000000000001, fgsm_top1_acc:0.635, blurred_top1_acc:0.5314531453145315
+VGG19_bn = top1_acc: 0.6323000000000001, top5_acc:0.8429000000000001, fgsm_top1_acc:0.6323000000000001, blurred_top1_acc:0.4930493049304931
+DenseNet = top1_acc: 0.6731, top5_acc:0.8715, fgsm_top1_acc:0.6731, blurred_top1_acc:0.5785578557855786
+ResAttNet = top1_acc: 0.30510000000000004, top5_acc:0.5826, fgsm_top1_acc:0.30510000000000004, blurred_top1_acc:0.25172517251725174
+
+Ensemble by Averaging logits
+Resnet152, VGG19_bn, DenseNet, ResAttNet
+Validation top1_acc: 0.7069000000000001, top5_acc:0.8974000000000001, fgsm_top1_acc:0.7069000000000001, blurred_top1_acc:0.6015601560156015
+Resnet152, DenseNet, ResAttNet
+Validation top1_acc: 0.6967, top5_acc:0.8898, fgsm_top1_acc:0.6967, blurred_top1_acc:0.6044604460446045
+Resnet152, VGG19_bn, ResAttNet
+Validation top1_acc: 0.6713, top5_acc:0.8746, fgsm_top1_acc:0.6713, blurred_top1_acc:0.5561556155615561
+Resnet152, VGG19_bn, DenseNet
+Validation top1_acc: 0.7110000000000001, top5_acc:0.9, fgsm_top1_acc:0.7110000000000001, blurred_top1_acc:0.6040604060406041
+DenseNet, VGG19_bn, ResAttNet
+Validation top1_acc: 0.6972, top5_acc:0.8907, fgsm_top1_acc:0.6972, blurred_top1_acc:0.591959195919592
+
+Ensemble by Majority Vote
+Resnet152, VGG19_bn, DenseNet, ResAttNet
+Validation top1_acc: 0.6778000000000001, top5_acc:0.0, fgsm_top1_acc:0.6778000000000001, blurred_top1_acc:0.5653565356535654
+
+Resnet152, DenseNet, ResAttNet
+Validation top1_acc: 0.6364000000000001, top5_acc:0.0, fgsm_top1_acc:0.6364000000000001, blurred_top1_acc:0.5346534653465347
+
+Resnet152, VGG19_bn, ResAttNet
+Validation top1_acc: 0.6198, top5_acc:0.0, fgsm_top1_acc:0.6198, blurred_top1_acc:0.49944994499449946
+
+Resnet152, VGG19_bn, DenseNet
+Validation top1_acc: 0.6871, top5_acc:0.0, fgsm_top1_acc:0.6871, blurred_top1_acc:0.5722572257225723
+
+DenseNet, VGG19_bn, ResAttNet
+Validation top1_acc: 0.6344000000000001, top5_acc:0.0, fgsm_top1_acc:0.6344000000000001, blurred_top1_acc:0.5187518751875188
+
