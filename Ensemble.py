@@ -93,9 +93,13 @@ class Ensemble():
                 
                 if mode == 'average':
                     # Take average of the output to make prediction
-                    outputs = torch.zeros(batch_size, num_classes).to(device)
+#                     outputs = torch.zeros(batch_size, num_classes).to(device)
+                    outputs = None
                     for m in self.models:
-                        outputs += m(inputs)
+                        if outputs is None:
+                            outputs = m(inputs)
+                        else:
+                            outputs += m(inputs)
                     outputs /= len(self.models)
                     _, preds = torch.max(outputs, 1)
                     loss = criterion(outputs, labels)
@@ -111,6 +115,7 @@ class Ensemble():
                     preds = self.find_majority_vote(predictions)
                 # statistics
                 running_loss += loss.item() * inputs.size(0)
+                
                 if mode == 'average':
                     corr1, corr5 = self.get_num_corrects(outputs, labels, topk=(1, 5))
                     running_corrects1 += corr1[0]
