@@ -1,0 +1,35 @@
+Loaded normal data of size {'train': 100000, 'val': 10000}
+Validation Accuracy Table
+Resnet152 = top1_acc: 0.635, top5_acc:0.8523000000000001, fgsm_top1_acc:0.635, blurred_top1_acc:0.635
+VGG19_bn = top1_acc: 0.6323000000000001, top5_acc:0.8429000000000001, fgsm_top1_acc:0.6323000000000001, blurred_top1_acc:0.6323000000000001
+DenseNet = top1_acc: 0.6731, top5_acc:0.8715, fgsm_top1_acc:0.6731, blurred_top1_acc:0.6731
+ResAttNet = top1_acc: 0.30510000000000004, top5_acc:0.5826, fgsm_top1_acc:0.30510000000000004, blurred_top1_acc:0.30510000000000004
+
+Ensemble by Averaging logits
+Resnet152, VGG19_bn, DenseNet, ResAttNet
+Validation top1_acc: 0.7069000000000001, top5_acc:0.8974000000000001, fgsm_top1_acc:0.7069000000000001, blurred_top1_acc:0.7069000000000001
+Resnet152, DenseNet, ResAttNet
+Validation top1_acc: 0.6967, top5_acc:0.8898, fgsm_top1_acc:0.6967, blurred_top1_acc:0.6967
+Resnet152, VGG19_bn, ResAttNet
+Validation top1_acc: 0.6713, top5_acc:0.8746, fgsm_top1_acc:0.6713, blurred_top1_acc:0.6713
+Resnet152, VGG19_bn, DenseNet
+Validation top1_acc: 0.7110000000000001, top5_acc:0.9, fgsm_top1_acc:0.7110000000000001, blurred_top1_acc:0.7110000000000001
+DenseNet, VGG19_bn, ResAttNet
+Validation top1_acc: 0.6972, top5_acc:0.8907, fgsm_top1_acc:0.6972, blurred_top1_acc:0.6972
+
+Ensemble by Majority Vote
+Resnet152, VGG19_bn, DenseNet, ResAttNet
+Validation top1_acc: 0.30510000000000004, top5_acc:0.5826, fgsm_top1_acc:0.30510000000000004, blurred_top1_acc:0.30510000000000004
+
+Resnet152, DenseNet, ResAttNet
+Validation top1_acc: 0.30510000000000004, top5_acc:0.5826, fgsm_top1_acc:0.30510000000000004, blurred_top1_acc:0.30510000000000004
+
+Resnet152, VGG19_bn, ResAttNet
+Validation top1_acc: 0.30510000000000004, top5_acc:0.5826, fgsm_top1_acc:0.30510000000000004, blurred_top1_acc:0.30510000000000004
+
+Resnet152, VGG19_bn, DenseNet
+Validation top1_acc: 0.6323000000000001, top5_acc:0.8429000000000001, fgsm_top1_acc:0.6323000000000001, blurred_top1_acc:0.6323000000000001
+
+DenseNet, VGG19_bn, ResAttNet
+Validation top1_acc: 0.30510000000000004, top5_acc:0.5826, fgsm_top1_acc:0.30510000000000004, blurred_top1_acc:0.30510000000000004
+
